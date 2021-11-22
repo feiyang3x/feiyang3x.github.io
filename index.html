@@ -2,10 +2,43 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script type="text/javascript" src="static/getgps.js"></script>
+		<script type="text/javascript" src="https://threejs.org/build/three.js"></script>
+		<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-table/1.18.3/bootstrap-table-locale-all.min.js"></script>
 		<title>夸父追日</title>
 	</head>
 	<body onload="getLocation()">
 		<img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.huabanimg.com%2Fc0bc31104d6f2a3d2a9f291392f968c1f219c3a388a2c-60QrMA_fw658&refer=http%3A%2F%2Fhbimg.huabanimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1639112917&t=df0131c7621328fa837e473f3c76697d"></img>
 		<h1>夸父与日逐走，入日；渴，欲得饮，饮于河、渭，河、渭不足，北饮大泽。未至，道渴而死。弃其杖，化为邓林。</h1>
+		<script>
+			const scene = new THREE.Scene();
+			const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+			const renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			const geometry = new THREE.BoxGeometry();
+			const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+			const cube = new THREE.Mesh( geometry, material );
+			scene.add( cube );
+
+			camera.position.z = 5;
+
+			const animate = function () {
+				requestAnimationFrame( animate );
+
+				cube.rotation.x += 0.01;
+				cube.rotation.y += 0.01;
+
+				renderer.render( scene, camera );
+			};
+
+			animate();
+		</script>
+		
+		<h2 id="container"></h2>
+
+
 	</body>
 </html>
