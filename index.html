@@ -2,7 +2,71 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<script type="text/javascript" src="static/getgps.js"></script>
+		<script>
+		var options={
+	enableHighAccuracy:true, //高精度定位参数
+	maximumAge:1000
+}
+
+function getLocation(){
+	if(navigator.geolocation){
+		//浏览器支持geolocation
+		//navigator.geolocation.getCurrentPosition(onSuccess,onError,options);
+		navigator.geolocation.watchPosition(onSuccess,onError,options);
+		//getCurrentPosition 只获取一次用户的地理位置函数
+		//onSuccess成功返回的回调函数(必选),onError失败返回的回调函数(可选),设置精确度等参数(可选options)
+		//navigator.geolocation.watchPosition(onSuccess,onError,options); 	//watchPosition 继续获取用户的位置,适合于导航
+		//onSuccess成功返回的回调函数(必选),onError失败返回的回调函数(可选),设置精确度等参数(可选options)
+	}else{
+		//浏览器不支持geolocation
+		document.getElementById("container").innerHTML= "您的浏览器暂不支持定位";
+	}
+}
+
+//成功时
+function onSuccess(position){
+	//返回用户位置
+	//经度
+	var longitude =position.coords.longitude;
+	//纬度
+	var latitude = position.coords.latitude;
+	//精确度
+	var accuracy = position.coords.accuracy;
+	//高度
+	var altitude = position.coords.altitude;
+	//高度精确度
+	var altitudeAccuracy = position.coords.altitudeAccuracy;
+	//设备正北顺时针前进的方位
+	var heading = position.coords.heading;
+	//设备外部环境的移动速度(m/s)
+	var speed = position.coords.speed;
+	//当位置捕获到时的时间戳
+	var timestamp = position.timestamp;
+	document.getElementById("container").innerHTML= 
+	"<br>您的经度是=" + longitude + 
+	"<br>您的纬度是=" + latitude +
+	"<br>您的位置精度是=" + accuracy +
+	"<br>您的高度是=" + altitude +
+	"<br>您的高度精度是=" + altitudeAccuracy +
+	"<br>您的设备方向(从正北开始以度计)是=" + heading +
+	"<br>您的设备移动速度(m/s)是=" + speed +
+	"<br>您的位置捕获时的时间戳是=" + timestamp;
+
+}
+
+//失败时
+
+function onError(error){
+	switch(error.code){
+		case error.PERMISSION_DENIED:document.getElementById("container").innerHTML= "位置服务被拒绝";break;
+		case error.POSITION_UNAVAILABLE:document.getElementById("container").innerHTML= "暂时获取不到位置信息";break;
+		case error.TIMEOUT:document.getElementById("container").innerHTML= "获取信息超时";break;
+		case error.UNKNOWN_ERROR:document.getElementById("container").innerHTML= "未知错误";break;
+	}
+}
+
+window.οnlοad=getLocation;
+		</script>
 		<script type="text/javascript" src="https://threejs.org/build/three.js"></script>
 		<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-table/1.18.3/bootstrap-table-locale-all.min.js"></script>
 		<title>夸父追日</title>
