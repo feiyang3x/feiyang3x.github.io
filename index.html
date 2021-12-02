@@ -9,6 +9,7 @@
 </head>
 <body>
 <input id="text" type="text" value="" style="width:80%" /><br />
+<h id="label"></h>
 <div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
 <button οnclick=makeCode()>生成二维码</button>
 <script type="text/javascript">
@@ -21,7 +22,7 @@ function makeCode () {
 	var elText = document.getElementById("text");
 	
 	if (!elText.value) {
-		alert("Input a text");
+		document.getElementById("text").innerHTML("Input a text");
 		elText.focus();
 		return;
 	}
