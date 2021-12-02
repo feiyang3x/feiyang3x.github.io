@@ -1,108 +1,45 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<script>
-		var options={
-	enableHighAccuracy:true, //高精度定位参数
-	maximumAge:1000
-}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ko" lang="ko">
+<head>
+<title>二维码生成器</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no" />
+<script type="text/javascript" src="//cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script type="text/javascript" src="//static.runoob.com/assets/qrcode/qrcode.min.js"></script>
+</head>
+<body>
+<input id="text" type="text" value="" style="width:80%" /><br />
+<div id="qrcode" style="width:100px; height:100px; margin-top:15px;"></div>
+<button οnclick=makeCode()>生成二维码</button>
+<script type="text/javascript">
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	width : 100,
+	height : 100
+});
 
-function getLocation(){
-	if(navigator.geolocation){
-		//浏览器支持geolocation
-		//navigator.geolocation.getCurrentPosition(onSuccess,onError,options);
-		navigator.geolocation.watchPosition(onSuccess,onError,options);
-		//getCurrentPosition 只获取一次用户的地理位置函数
-		//onSuccess成功返回的回调函数(必选),onError失败返回的回调函数(可选),设置精确度等参数(可选options)
-		//navigator.geolocation.watchPosition(onSuccess,onError,options); 	//watchPosition 继续获取用户的位置,适合于导航
-		//onSuccess成功返回的回调函数(必选),onError失败返回的回调函数(可选),设置精确度等参数(可选options)
-	}else{
-		//浏览器不支持geolocation
-		document.getElementById("container").innerHTML= "您的浏览器暂不支持定位";
+function makeCode () {		
+	var elText = document.getElementById("text");
+	
+	if (!elText.value) {
+		alert("Input a text");
+		elText.focus();
+		return;
 	}
+	
+	qrcode.makeCode(elText.value);
 }
 
-//成功时
-function onSuccess(position){
-	//返回用户位置
-	//经度
-	var longitude =position.coords.longitude;
-	//纬度
-	var latitude = position.coords.latitude;
-	//精确度
-	var accuracy = position.coords.accuracy;
-	//高度
-	var altitude = position.coords.altitude;
-	//高度精确度
-	var altitudeAccuracy = position.coords.altitudeAccuracy;
-	//设备正北顺时针前进的方位
-	var heading = position.coords.heading;
-	//设备外部环境的移动速度(m/s)
-	var speed = position.coords.speed;
-	//当位置捕获到时的时间戳
-	var timestamp = position.timestamp;
-	document.getElementById("container").innerHTML= 
-	"<br>您的经度是=" + longitude + 
-	"<br>您的纬度是=" + latitude +
-	"<br>您的位置精度是=" + accuracy +
-	"<br>您的高度是=" + altitude +
-	"<br>您的高度精度是=" + altitudeAccuracy +
-	"<br>您的设备方向(从正北开始以度计)是=" + heading +
-	"<br>您的设备移动速度(m/s)是=" + speed +
-	"<br>您的位置捕获时的时间戳是=" + timestamp;
+makeCode();
 
-}
-
-//失败时
-
-function onError(error){
-	switch(error.code){
-		case error.PERMISSION_DENIED:document.getElementById("container").innerHTML= "位置服务被拒绝";break;
-		case error.POSITION_UNAVAILABLE:document.getElementById("container").innerHTML= "暂时获取不到位置信息";break;
-		case error.TIMEOUT:document.getElementById("container").innerHTML= "获取信息超时";break;
-		case error.UNKNOWN_ERROR:document.getElementById("container").innerHTML= "未知错误";break;
-	}
-}
-
-window.οnlοad=getLocation;
-		</script>
-		<script type="text/javascript" src="https://threejs.org/build/three.js"></script>
-		<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-table/1.18.3/bootstrap-table-locale-all.min.js"></script>
-		<title>夸父追日</title>
-	</head>
-	<body onload="getLocation()">
-		<img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fhbimg.huabanimg.com%2Fc0bc31104d6f2a3d2a9f291392f968c1f219c3a388a2c-60QrMA_fw658&refer=http%3A%2F%2Fhbimg.huabanimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1639112917&t=df0131c7621328fa837e473f3c76697d"></img>
-		<h1>夸父与日逐走，入日；渴，欲得饮，饮于河、渭，河、渭不足，北饮大泽。未至，道渴而死。弃其杖，化为邓林。</h1>
-		<script>
-			const scene = new THREE.Scene();
-			const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
-
-			const renderer = new THREE.WebGLRenderer();
-			renderer.setSize( window.innerWidth, window.innerHeight );
-			document.body.appendChild( renderer.domElement );
-
-			const geometry = new THREE.BoxGeometry();
-			const material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-			const cube = new THREE.Mesh( geometry, material );
-			scene.add( cube );
-
-			camera.position.z = 5;
-
-			const animate = function () {
-				requestAnimationFrame( animate );
-
-				cube.rotation.x += 0.01;
-				cube.rotation.y += 0.01;
-
-				renderer.render( scene, camera );
-			};
-
-			animate();
-		</script>
-		
-		<h2 id="container"></h2>
-
-
-	</body>
+$("#text").
+	on("blur", function () {
+		makeCode();
+	}).
+	on("keydown", function (e) {
+		if (e.keyCode == 13) {
+			makeCode();
+		}
+	});
+</script>
+</body>
 </html>
