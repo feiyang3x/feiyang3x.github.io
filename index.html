@@ -8,9 +8,9 @@
 <script type="text/javascript" src="https://cdn.bootcdn.net/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
-<input id="text" type="text" placeholder="待转文字" style="width:22%" />
+<input id="text" type="text" placeholder="待转文字" style="width:50%" />
 <button οnclick=makeCode()>生成二维码</button>
-<div id="qrcode" style="width:400px; height:400px; margin-top:15px;"></div>
+<div id="qrcode" style="width:50%; height:50%; margin-top:15px;"></div>
 <script type="text/javascript">
 var qrcode = new QRCode(document.getElementById("qrcode"), {
 	width : 400,
